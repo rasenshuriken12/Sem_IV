@@ -155,39 +155,7 @@ Important Theorems:
 
 ---
 
-8. Learning Path & Exercises
-
-Week 1-2: Finite Automata
-
-1. Design a DFA for:
-   · Strings with odd number of 1's
-   · Strings containing "101" as substring
-2. Convert NFA to DFA
-3. Prove language {0ⁿ1ⁿ | n ≥ 0} is NOT regular using Pumping Lemma
-
-Week 3-4: Regular Expressions
-
-1. Write regex for:
-   · Valid email addresses (simplified)
-   · Binary numbers divisible by 3
-2. Convert regex to NFA
-
-Week 5-6: Pushdown Automata
-
-1. Design PDA for:
-   · Balanced parentheses
-   · {aⁿbⁿcⁿ | n ≥ 0} (Spoiler: This requires more than PDA!)
-
-Week 7-8: Turing Machines
-
-1. Design TM for:
-   · Copying a string
-   · Multiplication of unary numbers
-2. Understand Halting Problem proof
-
----
-
-9. Recommended Resources
+8. Recommended Resources
 
 Books:
 
@@ -206,19 +174,4 @@ Online Courses:
 · MIT OpenCourseWare (6.045J/18.400J)
 · Coursera: "Automata Theory" by Stanford
 
----
 
-10. The Big Picture
-
-Automata Theory teaches you:
-
-1. What problems can be solved by computers (computability)
-2. How efficiently they can be solved (complexity)
-3. How to prove something cannot be computed
-4. Fundamental limits of computation
-
-This isn't just abstract math—it's the foundation that tells us what computation actually is and helps build better compilers, parsers, and verification tools.
-
----
-
-Want to dive deeper? Let me know which automaton you'd like to explore first with examples and exercises!
