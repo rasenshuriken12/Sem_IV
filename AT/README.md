@@ -19,8 +19,6 @@ Pushdown Automata
 Finite Automata
 ```
 
----
-
 3. Finite Automata (FA) - The Foundation
 
 Simplest automata with finite memory. They read input string symbol by symbol and change states based on current state and input.
@@ -63,8 +61,6 @@ q₁ --1--> q₂
 q₂ --0--> q₁
 q₂ --1--> q₀
 ```
-
----
 
 4. Regular Expressions and Languages
 
