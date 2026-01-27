@@ -34,6 +34,13 @@ Types:
    - Can have ε-transitions
    - Key Theorem: Every NFA can be converted to an equivalent DFA
 
+> Closure Representation in TOC
+1. L+: "Positive Closure" - a set of all strings except Null or ε-strings.
+
+2. L*: "Kleene Closure" - occurrence of certain alphabets from zero to the infinite number of times for given language alphabets. In which ε-string is also included.
+
+L* = εL+
+
 Formal Definition (DFA):
 
 A DFA is a 5-tuple: (Q, Σ, δ, q₀, F)
