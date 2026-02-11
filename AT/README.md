@@ -1,4 +1,9 @@
-Automata Theory
+# Automata Theory
+
+### What is an Automaton
+
+- An abstract machine that reads input step-by-step 
+- changes state according to predefined rules to decide something.
 
 1. What is Automata Theory?
 
