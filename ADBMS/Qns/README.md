@@ -23,6 +23,23 @@ A Star Schema has a central **fact table** surrounded by **denormalized dimensio
 ```
 
 ### **Example (Star Schema):**
+```
+Product_Dim (denormalized)
+- P_id, P_name, Category_id, Category_name
+
+Store_Dim (denormalized)
+- Store_id, Store_name, City_id, City_name, State_id, State_name
+
+Customer_Dim (denormalized)
+- Cust_id, Cust_name, City_id, City_name, Tier_id, Tier_name
+
+Time_Dim
+- Time_id, Date, Year, Quarter, Month
+
+Sales_Fact
+- Sale_id, product_ref, store_ref, customer_ref, time_ref, amount
+```
+
 ```sql
 -- Product Dimension (Denormalized)
 CREATE TABLE Product_Dim (
@@ -41,6 +58,7 @@ CREATE TABLE Store_Dim (
     State_name VARCHAR(50)      -- Denormalized: State info stored here
 );
 
+-- Customer Dimension
 CREATE TABLE Customer_Dim (
     Cust_id INT PRIMARY KEY,
     Cust_name VARCHAR(50),
@@ -49,6 +67,7 @@ CREATE TABLE Customer_Dim (
     Cust_city VARCHAR(50),
 );
 
+-- Time Dimension
 CREATE TABLE Time_Dim (
     Time_id INT PRIMARY KEY,
     Sale_Date DATE,
@@ -109,6 +128,29 @@ A Snowflake Schema is an extension of star schema where dimension tables are **n
 ```
 
 ### **Example (Snowflake Schema):**
+```
+Category_Dim
+- C_id, C_name
+
+Product_Dim
+- P_id, P_name, cid → Category_Dim
+
+City_Dim
+- City_id, City_name
+
+Store_Dim
+- Store_id, Store_name, cityid → City_Dim
+
+Customer_Dim
+- Cust_id, Cust_name, Cust_city (redundant but acceptable)
+
+Time_Dim
+- Time_id, Date, Year, Quarter, Month
+
+Sales_Fact
+- Sale_id, product_ref, store_ref, customer_ref, time_ref, amount
+```
+
 ```sql
 -- Category Dimension
 CREATE TABLE Category_Dim (
@@ -124,17 +166,18 @@ CREATE TABLE Product_Dim (
     FOREIGN KEY (cid) REFERENCES Category_Dim(C_id)
 );
 
--- City Dimension
-CREATE TABLE City_Dim (
-    City_id INT PRIMARY KEY,
-    City_name VARCHAR(50),
-    State_id INT
-);
-
 -- State Dimension
 CREATE TABLE State_Dim (
     State_id INT PRIMARY KEY,
     State_name VARCHAR(50)
+);
+
+-- City Dimension
+CREATE TABLE City_Dim (
+    City_id INT PRIMARY KEY,
+    City_name VARCHAR(50),
+    stateid INT
+    FOREIGN KEY (stateid) REFERENCES City_Dim(State_id)
 );
 
 -- Store Dimension (Normalized - references City)
@@ -228,48 +271,17 @@ GROUP BY p.Category_name, s.City_name;
 ```sql
 -- Find total sales by category and city
 SELECT 
-    c.C_name AS Category,
-    ct.City_name AS City,
+    c.Category_name,
+    ct.City_name,
     SUM(f.sales_amount) AS Total_Sales
 FROM Sales_Fact f
 JOIN Product_Dim p ON f.product_ref = p.P_id      -- Join 1
-JOIN Category_Dim c ON p.cid = c.C_id             -- Join 2 (snowflake)
+JOIN Category_Dim c ON p.cid = c.C_id             -- Join 2 (snowflake p -> c)
 JOIN Store_Dim s ON f.store_ref = s.Store_id      -- Join 3
-JOIN City_Dim ct ON s.cityid = ct.City_id         -- Join 4 (snowflake)
-GROUP BY c.C_name, ct.City_name;
+JOIN City_Dim ct ON s.cityid = ct.City_id         -- Join 4 (snowflake s -> ct)
+GROUP BY c.Category_name, ct.City_name;
 ```
 **Joins:** 4 (additional joins through normalized tables)
-
----
-
-## **⚖️ ADVANTAGES & DISADVANTAGES**
-
-### **Star Schema Advantages:**
-✅ **Faster Query Performance** - Fewer joins means quicker execution  
-✅ **Simpler to Understand** - Intuitive structure for business users  
-✅ **Easier to Build** - Simple ETL processes  
-✅ **Better for OLAP** - Optimized for cube processing  
-✅ **Less Complex Queries** - Direct joins to dimensions
-
-### **Star Schema Disadvantages:**
-❌ **Data Redundancy** - Duplicate data across dimensions  
-❌ **Higher Storage** - More space required  
-❌ **Update Anomalies** - Changes need multiple updates  
-❌ **Less Flexible** - Harder to add new hierarchies
-
-### **Snowflake Schema Advantages:**
-✅ **No Data Redundancy** - Normalized structure saves space  
-✅ **Better Data Integrity** - Each fact stored once  
-✅ **Easier Maintenance** - Update in one place  
-✅ **Flexible Hierarchies** - Easy to add levels  
-✅ **Smaller Storage** - Less space required
-
-### **Snowflake Schema Disadvantages:**
-❌ **Slower Queries** - Multiple joins required  
-❌ **Complex Queries** - More complex SQL  
-❌ **Harder to Understand** - Not intuitive for business users  
-❌ **ETL Complexity** - More complex loading processes  
-❌ **Performance Overhead** - Additional processing time
 
 ---
 
@@ -292,108 +304,5 @@ GROUP BY c.C_name, ct.City_name;
 - **Decision:** Rare in production; more academic/theoretical
 
 ---
-
-## **🎓 REAL-WORLD SCENARIO**
-
-### **Retail Database Example**
-
-#### **Star Schema Design:**
-```
-Product_Dim (denormalized)
-- P_id, P_name, Category_id, Category_name
-
-Store_Dim (denormalized)
-- Store_id, Store_name, City_id, City_name, State_id, State_name
-
-Customer_Dim (denormalized)
-- Cust_id, Cust_name, City_id, City_name, Tier_id, Tier_name
-
-Time_Dim
-- Time_id, Date, Year, Quarter, Month
-
-Sales_Fact
-- Sale_id, product_ref, store_ref, customer_ref, time_ref, amount
-```
-
-#### **Snowflake Schema Design (Our Implementation):**
-```
-Category_Dim
-- C_id, C_name
-
-Product_Dim
-- P_id, P_name, cid → Category_Dim
-
-City_Dim
-- City_id, City_name
-
-Store_Dim
-- Store_id, Store_name, cityid → City_Dim
-
-Customer_Dim
-- Cust_id, Cust_name, Cust_city (redundant but acceptable)
-
-Time_Dim
-- Time_id, Date, Year, Quarter, Month
-
-Sales_Fact
-- Sale_id, product_ref, store_ref, customer_ref, time_ref, amount
-```
-
----
-
-## **🔍 QUERY PERFORMANCE COMPARISON**
-
-### **Star Schema (2 joins):**
-```
-Execution Time: ~0.05 seconds
-Query Plan: Simple, uses indexes directly
-```
-
-### **Snowflake Schema (4 joins):**
-```
-Execution Time: ~0.12 seconds  
-Query Plan: Complex, multiple index lookups
-```
-
-**Performance Impact:** Snowflake schema can be **2-3x slower** for complex analytical queries due to additional joins.
-
----
-
-## **📝 SUMMARY TABLE**
-
-| Criteria | Star Schema | Snowflake Schema |
-|----------|-------------|------------------|
-| **Normalization** | Denormalized | Normalized |
-| **Query Speed** | Faster | Slower |
-| **Storage Space** | More | Less |
-| **Data Redundancy** | High | Low |
-| **Maintenance** | Easier | Complex |
-| **Business User Friendly** | Yes | No |
-| **ETL Complexity** | Simple | Complex |
-| **Join Complexity** | Simple | Complex |
-| **Flexibility** | Lower | Higher |
-| **Data Integrity** | Lower | Higher |
-| **Common Usage** | 90% of Data Warehouses | 10% of Data Warehouses |
-
----
-
-## **🎯 CONCLUSION**
-
-| Aspect | Winner |
-|--------|--------|
-| **Performance** | ⭐ **Star Schema** |
-| **Storage Efficiency** | ❄️ **Snowflake Schema** |
-| **Ease of Use** | ⭐ **Star Schema** |
-| **Data Integrity** | ❄️ **Snowflake Schema** |
-| **Query Simplicity** | ⭐ **Star Schema** |
-| **Maintenance** | ⭐ **Star Schema** |
-| **Hierarchy Support** | ❄️ **Snowflake Schema** |
-| **Overall Practicality** | ⭐ **Star Schema** |
-
-### **Final Verdict:**
-- **Star Schema** is the **industry standard** for data warehousing
-- **Snowflake Schema** is more **theoretical** and used in specific scenarios
-- **Hybrid Approach** often used: partially normalized dimensions where it makes sense
-- **Our Implementation** in the Retail database is a **true Snowflake Schema** with fully normalized dimensions
 
 **Remember:** The choice depends on your specific requirements for **performance, storage, maintenance, and query complexity**. Most real-world data warehouses use a **hybrid approach** - star schema for most dimensions, snowflake only where necessary!
