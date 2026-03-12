@@ -5,7 +5,13 @@ Trick: Assume we have 101 = value = 5.
 - If we get next bit as "1", then, `new value = value * 2 + 1` = 5 * 2 + 1 = 11
 - If we get next bit as "0", then, `new value = value * 2 + 0` = 5 * 2 + 0 = 10
 
+```
 δ(r, d) = (2*r + d) mod 3.
+
+Accepting states: {R_0}
+
+Non-accepting states: {R_1, R_2, R_3}
+```
 
 So, from the start state q, we go to state R_0 (Remainder 0), if we see a 0, and, go to state R_1 (Remainder 1), if we
 see a 1.
@@ -141,7 +147,7 @@ Target Pattern: **aba**
 |-------|---|---|
 | S | qa | qb |
 | qa | qa | qab |
-| qb | qab | qb |
-| qab | qaba | qab |
-| qaba | qaba | qab |
+| qb | qa | qb |
+| qab | qaba | qb |
+| qaba | qa | qab |
 
