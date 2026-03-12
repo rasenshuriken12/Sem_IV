@@ -31,9 +31,8 @@ see a 1.
 Accepting states: {R_0}
 
 Non-accepting states: {R_1, R_2, R_3}
-
-
 ```
+
 | Value | `R_0` | `R_1` | `R_2` | `R_3` |
 |-------|-------|-------|-------|-------|
 | *0*   | `0` * 10 + *0* = 0 → 0 | `1` * 10 + *0* = 10 → 2 | `2` * 10 + *0* = 20 → 0 | `3` * 10 + *0* = 30 → 2 |
@@ -88,5 +87,60 @@ Non-accepting states: {R_1, R_2, R_3}
 - **Accepting state:** R_0 (numbers divisible by 4 end with remainder 0)
 - **Transition function:** δ(current state, digit) = (10 × current state + digit) mod 4
 
+---
 
+# DFA for ending with 00 or 11
+
+The basic states ending with 0 and ending with 1 are required. Additionally, we will have states ending with 00 and 11. Start with a table
+
+**Transition table:**
+
+| S | q0 | q1 |
+|--|--|--|
+| q0 | q00 | q1 |
+| q1 | q0 | q11 |
+| q00 | q00 | q1 |
+| q11 | q0 | q11 |
+
+
+
+## The Pattern Being Tracked
+
+This DFA appears to be tracking **strings ending with specific substrings**. This is actually implementing the **Knuth-Morris-Pratt (KMP) pattern matching automaton** for pattern "aba"! The subscripts track the **longest prefix of the pattern** that is a suffix of the string read so far.
+
+
+## Target Pattern: "aba"
+
+| State | Meaning (suffix of "aba" seen so far) |
+|-------|---------------------------------------|
+| qa | Last character was 'a' (not necessarily part of pattern yet) |
+| qb | Last character was 'b' |
+| qab | Last two characters were "ab" |
+| qaba | Last three characters were "aba" (full pattern found!) |
+
+### Transition Logic Examples:
+
+**From qa (ends with 'a'):**
+- Read 'a' → now ends with "aa" → longest suffix of "aba"? Only the last 'a' matches → back to **qa**
+- Read 'b' → now ends with "ab" → "ab" is a prefix of "aba"! → go to **qab**
+
+**From qb (ends with 'b'):**
+- Read 'a' → now ends with "ba" → longest suffix of "aba"? Only the last 'a' matches (since "ba" isn't a prefix) → go to **qa**
+- Read 'b' → now ends with "bb" → longest suffix of "aba"? None (just empty string conceptually) → wait, but here it stays **qb**? Actually "bb" has no suffix matching pattern start, but last char is 'b' so stay qb.
+
+**From qab (ends with "ab"):**
+- Read 'a' → now ends with "aba" → full pattern! → go to **qaba**
+- Read 'b' → now ends with "abb" → longest suffix matching start of "aba"? Last char is 'b', so qb? But check: "abb" last char 'b' means qb, yes.
+
+**From qaba (ends with "aba" - full pattern found):**
+- Read 'a' → now ends with "abaa" → longest suffix matching start of "aba"? Last three chars "baa" no, last two "aa" no, last char 'a' → so **qa**
+- Read 'b' → now ends with "abab" → longest suffix matching start? "ab" is a prefix! → go to **qab**
+
+| State | a | b |
+|-------|---|---|
+| S | qa | qb |
+| qa | qa | qab |
+| qb | qab | qb |
+| qab | qaba | qab |
+| qaba | qaba | qab |
 
