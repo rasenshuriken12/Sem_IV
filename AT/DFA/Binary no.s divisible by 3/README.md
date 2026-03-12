@@ -102,14 +102,15 @@ The basic states ending with 0 and ending with 1 are required. Additionally, we 
 | q00 | q00 | q1 |
 | q11 | q0 | q11 |
 
+---
 
+# DFA for ending with aba
 
 ## The Pattern Being Tracked
 
 This DFA appears to be tracking **strings ending with specific substrings**. This is actually implementing the **Knuth-Morris-Pratt (KMP) pattern matching automaton** for pattern "aba"! The subscripts track the **longest prefix of the pattern** that is a suffix of the string read so far.
 
-
-## Target Pattern: "aba"
+Target Pattern: **aba**
 
 | State | Meaning (suffix of "aba" seen so far) |
 |-------|---------------------------------------|
