@@ -76,3 +76,28 @@ This layer controls the lifecycle of a communication session.
 - Physical addressing: adds MAC address in the header of each frame.
 - Error control: detects and retransmits damaged or lost frames.
 - Flow Control: Controls the flows of data thru acknowledgement.
+
+### Difference Between OSI Model and TCP/IP Model
+
+| No. | OSI Model | TCP/IP Model |
+|----|-----------|--------------|
+| No. of Layers | Consists of 7 layers | Consists of 4 layers |
+| Acronym | OSI (Open System Interaction) | Transmission Control Protocol / Internet Protocol | 
+|  Developed by  | ISO | DoD ( Dept. of Defense) |
+| Layer Separation | Application, Presentation, and Session are separate layers | These three layers are combined into a single Application layer |
+| Protocol Implementation | OSI model was developed before the protocols were implemented | model was defined after protocols were implemented |
+| Model Concept | separates services, interfaces, and protocols | does not separate services, interfaces, and protocols |
+| Reliable Delivery of Packet | Guaranteed | Not |
+
+### Types of Network
+
+- PAN(Personal), LAN(Local),  MAN(Metropolitan), WAN(Wide)
+- Area Covered, Error Rates ↑ , Transmission Speed ↓ , Networking Cost ↑
+
+### Network Hardware
+- Network Interface Card (NIC) - allows to send and receive information
+- Repeater: receives a signal and retransmits it at a higher level or higher power
+- Network Hub: connects multiple ports together
+
+### Network Software
+
