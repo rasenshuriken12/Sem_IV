@@ -1,6 +1,6 @@
 # Physical Layer & Data Link Layer
 
-### Transmission Media
+## Transmission Media
 
 - Guided Media
   - Twisted Pair
@@ -17,9 +17,9 @@
 
 - Characteristics
   - Twisting helps reduce electromagnetic interference (EMI) and crosstalk.
-  - Usually used for short-distance communication.
   - Has lower bandwidth than fiber optic cables.
-
+  - Usually used for short-distance communication.
+ 
 - Applications
   - Telephone communication systems
   - Local Area Networks (LAN)
@@ -57,3 +57,21 @@
 | Higher bandwidth than twisted pair cables. | More expensive than twisted pair cables
 | Longer transmission distance. | Harder to install and maintain
 
+
+### Optical Fiber
+- transmits data in the form of light signals through very thin strands of glass or plastic fibers. It uses the principle of Total Internal Reflection to guide light along the fiber.
+
+An optical fiber cable consists of three main layers:
+- Core: Central part made of glass or plastic
+
+Carries the light signals (data)
+
+Cladding
+
+Surrounds the core
+
+Reflects light back into the core using total internal reflection
+
+Protective Jacket
+
+Outer covering that protects the fiber from damage
