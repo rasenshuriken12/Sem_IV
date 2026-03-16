@@ -75,3 +75,14 @@ Reflects light back into the core using total internal reflection
 Protective Jacket
 
 Outer covering that protects the fiber from damage
+
+
+| Feature | Radio Waves | Microwaves | Infrared Waves |
+|--------|-------------|------------|---------------|
+| Frequency Range | Low frequency (3 kHz – 1 GHz approx.) | Medium frequency (1 GHz – 300 GHz) | Higher frequency (300 GHz – 400 THz) |
+| Wavelength | Long wavelength | Shorter than radio waves | Very short wavelength |
+| Transmission Method | Omnidirectional (signals spread in all directions) | Directional (signals travel in a focused beam) | Line-of-sight communication |
+| Penetration | Can penetrate walls and buildings | Limited penetration through obstacles | Cannot penetrate walls |
+| Distance Coverage | Long distance communication | Medium to long distance | Very short distance |
+| Applications | Radio broadcasting, television, wireless communication | Satellite communication, radar, Wi-Fi, mobile networks | Remote controls, sensors, short-range communication |
+| Interference | High interference due to wide spreading | Less interference due to directional transmission | Minimal interference but blocked by obstacles |
