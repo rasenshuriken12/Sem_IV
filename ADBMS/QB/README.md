@@ -161,3 +161,98 @@ WHERE t.Year = 2023
 5. Pivot → Change data view
 
 - changes the dimensional orientation of the cube, allowing users to view data from different perspectives by reordering dimensions.
+
+Here is the consolidated list of **unique** questions from your sample paper. I have merged all repeated variations (e.g., Star Schema design, ETL processes, OLAP operations) into single, comprehensive entries so you can study efficiently without redundancy.
+
+### **Section 1: SQL & OLAP Operations**
+**Q1.** Consider an Online Sales Data Warehouse with tables: `Sales_Fact`, `Product_Dim`, `Customer_Dim`, and `Time_Dim`.
+*   **Option A:** Write analytical SQL queries to find:
+    1.  Total sales by product category.
+    2.  Quarterly sales performance.
+    3.  Region-wise revenue analysis.
+    4.  Average sales per customer.
+    *(Variation: Also explain how the output helps management in decision-making.)*
+*   **Option B:** Explain how OLAP operations help analyze business data. Illustrate the following with examples from an Online Sales cube:
+    1.  Roll-up
+    2.  Drill-down
+    3.  Slice
+    4.  Dice
+    5.  Pivot
+    *(Variation: Explain how a Star Schema supports these specific OLAP operations.)*
+
+---
+
+### **Section 2: Data Warehouse Modeling (Star vs. Snowflake)**
+**Q2.** An Online Retail Company wants to build a Data Warehouse using data from `Orders`, `Customers`, and `Products` tables.
+*   **Option A:** Design a **Star Schema** for this scenario. Clearly identify:
+    1.  Fact table and its attributes.
+    2.  Dimension tables and their attributes.
+    3.  Key attributes (Primary/Foreign Keys).
+    4.  Explain how this schema supports business analytics with 3 specific examples (including 2 sample SQL queries).
+*   **Option B:** Convert the above Star Schema into a **Snowflake Schema**.
+    1.  Explain the normalization process used.
+    2.  Discuss the advantages and disadvantages of the Snowflake schema in this specific case.
+    3.  Explain situations where a Snowflake schema is preferred over a Star Schema.
+
+---
+
+### **Section 3: ETL Process & Challenges**
+**Q3.**
+*   **Option A:** Explain the **ETL (Extract, Transform, Load)** process used in Data Warehousing. Describe the activities involved in each stage with suitable examples.
+    *(Variation: Design an ETL workflow for integrating data from E-commerce, Mobile App, and Offline Store sources, covering extraction, transformation, loading, and validation.)*
+*   **Option B:** Describe the role of **Data Transformation** in ETL. Explain at least five common transformation techniques (e.g., cleaning, standardization, derivation) used during processing.
+    *(Variation: Discuss major ETL challenges such as data quality, heterogeneous sources, missing values, consistency, and referential integrity, suggesting solutions for each.)*
+
+---
+
+### **Section 4: ETL Implementation, Automation & Quality**
+**Q4.**
+*   **Option A:** Explain how an ETL pipeline can be implemented using **Python** to:
+    1.  Extract data from CSV files/APIs.
+    2.  Perform transformations (remove missing values, convert dates, calculate totals).
+    3.  Load cleaned data into a SQLite database.
+    *(Include a simple code snippet demonstrating this process.)*
+*   **Option B:** Discuss how to **automate** the ETL process for daily sales data. Your answer should cover:
+    1.  Reading files/Data validation.
+    2.  Loading mechanisms.
+    3.  Logging and Error Handling.
+    4.  Auditing and Data Reconciliation.
+    5.  Scheduling the job.
+
+---
+
+### **Section 5: DW Architecture & Concepts**
+**Q5.**
+*   **Option A:** Explain the **Architecture of a Data Warehouse**. Discuss the role of:
+    1.  Data Source systems.
+    2.  Staging area.
+    3.  Data warehouse repository.
+    4.  Data marts.
+    5.  Metadata Manager.
+*   **Option B:** Differentiate between the following concepts (provide at least 3 differences with examples for each):
+    1.  Data Warehouse vs. Traditional Database (or DBMS).
+    2.  OLTP vs. OLAP systems.
+    3.  SQL vs. NoSQL (or Schema vs. Schema-less Design).
+
+---
+
+### **Section 6: NoSQL & Schema-less Databases**
+**Q6.**
+*   **Option A:** What do you understand by **Schema-less database** design?
+    1.  Explain the different elements of the **BASE Model**.
+    2.  Differentiate between ACID and BASE models.
+    3.  Explain different types of NoSQL databases (Key-Value, Document, Column-family, Graph) with examples.
+*   **Option B:** Compare **Schema-less** design with Relational Schema design.
+    1.  What are its advantages and limitations?
+    2.  Discuss **Vertical Scaling vs. Horizontal Scaling** in the context of NoSQL/Distributed databases.
+    3.  Discuss scaling, availability, performance, and latency considerations in schema-less systems.
+
+---
+
+### **Section 7: Advanced Analytics & Cubes**
+**Q7.**
+*   **Option A:** An E-commerce company wants to analyze customer behavior using a **Snowflake Schema**. Design three analytical queries to answer:
+    1.  Which product categories generate the highest revenue?
+    2.  Which region shows the fastest sales growth?
+    3.  What is the monthly sales trend for the past year?
+*   **Option B:** Explain how **OLAP Cubes** can be built from a Sales Star Schema to support multidimensional analysis. Discuss the dimensions, measures, and hierarchies involved.
