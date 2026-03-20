@@ -1,3 +1,5 @@
+Mod 1: Fundamentals of Microprocessor, Arduino & Raspberry Pi
+
 Q1) Provide a detailed functional block diagram of the 8051 Microcontroller and describe five
 key features of it.
 
@@ -137,5 +139,108 @@ In **Execute stage**:
 
 ---
 
+Mod 2: 8051 Microcontroller
+
+Q1) What is the size of Internal RAM and ROM organization in the 8051 Microcontroller? Explain the register banks and special function registers (SFRs).
+
+Internal Memory Organization:
+1. ROM (Program Memory):
+- Size: 4 KB (4096 bytes) on-chip ROM/EPROM
+- Address Range: 0000H to 0FFFH (internal)
+- Type: Non-volatile memory
+- Purpose: Stores program code and constant data
+- Expandable: Can access up to 64 KB external program memory
+
+2. RAM (Data Memory):
+- Size: 128 bytes on-chip RAM
+- Address Range: 00H to 7FH
+- Type: Volatile memory (lost on power-off)
+- Purpose: Temporary data storage, variables, stack
+
+## 128 Bytes RAM Structure:
+```
+Address Range    |    Usage
+─────────────────┼─────────────────────────────────
+00H - 1FH (32B)  | Register Banks (4 banks × 8 registers)
+20H - 2FH (16B)  | Bit-addressable area (128 bits)
+30H - 7FH (80B)  | General-purpose scratch pad / Stack
+```
+
+Register Banks:
+The 8051 has 4 register banks (Bank 0 to Bank 3), each containing 8 registers (R0-R7):
+```
+Bank 0: R0-R7 at addresses 00H-07H  (Default after reset)
+Bank 1: R0-R7 at addresses 08H-0FH
+Bank 2: R0-R7 at addresses 10H-17H
+Bank 3: R0-R7 at addresses 18H-1FH
+```
+
+Bank Selection:
+- Controlled by RS1 and RS0 bits in PSW register
+- Only one bank is active at a time
+- Allows fast context switching in interrupt routines
+
+PSW Bits for Bank Selection:
+```
+RS1 (PSW.4)  RS0 (PSW.3)  Selected Bank
+     0            0         Bank 0 (Default)
+     0            1         Bank 1
+     1            0         Bank 2
+     1            1         Bank 3
+```
+
+## Special Function Registers (SFRs):
+SFRs are memory-mapped control registers located at addresses 80H to FFH. They control peripherals and CPU functions.
+
+1. I/O Port
+
+| Address | SFR |
+| ------- | --- | 
+| 80H     | P0  |
+| 90H     | P1  |
+| A0H     | P2  |
+| B0H     | P3  |
+
+2. Core CPU
+
+| Address | SFR |
+| ------- | --- | 
+| 81H     | SP  |
+| 82H     | DPL |
+| 83H     | DPH |
+| D0H     | PSW |
+| E0H     | A   |
+| F0H     | B   |
+
+3. Power Control
+
+| Address | SFR |
+| ------- | --- | 
+| 87H     | PCON |
+
+4. Timer Control
+
+| Address | SFR |
+| ------- | --- | 
+| 88H     | TCON |
+| 89H     | TMOD |
+| 8AH     | TL0 |
+| 8BH     | TL1 |
+| 8CH     | TH0 |
+| 8DH     | TH1 |
+
+5. Serial Communication
+
+| Address | SFR |
+| ------- | --- | 
+| 98H     | SCON |
+| 99H     | SBUF |
+
+6. Interrupt SFRs
+
+| Address | SFR |
+| ------- | --- | 
+| A8H     | IE |
+| B8H     | IP |
 
 
