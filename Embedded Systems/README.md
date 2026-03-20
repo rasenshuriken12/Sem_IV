@@ -243,4 +243,308 @@ SFRs are memory-mapped control registers located at addresses 80H to FFH. They c
 | A8H     | IE |
 | B8H     | IP |
 
+---
+
+Describe the internal Timer/Counter hardware of the 8051. Explain the functions of the TMOD and TCON registers in timer operations.
+
+🔥 1️⃣ Internal Timer/Counter Hardware of 8051
+
+The 8051 has:
+
+2 timers/counters → Timer 0 and Timer 1
+
+Each is 16-bit (split into two 8-bit registers)
+
+
+Timer	High Byte	Low Byte
+
+Timer 0	TH0	TL0
+Timer 1	TH1	TL1
+
+
+Two modes of operation:
+
+⏱️ Timer Mode (C/T = 0)
+
+Increments based on internal clock
+
+Used for:
+
+Delays
+
+Time measurement
+
+
+
+🔢 Counter Mode (C/T = 1)
+
+Increments based on external pulses
+
+Pins used:
+
+T0 → P3.4
+
+T1 → P3.5
+
+
+
+Used for:
+
+Counting events (people, pulses, signals)
+
+
+
+---
+
+⚙️ Internal Working (System View)
+
+Inside each timer:
+
+Increment logic (adder)
+
+Control logic (start/stop)
+
+Overflow detection
+
+
+Clock source:
+
+8051 divides oscillator by 12
+
+
+👉 If crystal = 12 MHz:
+
+Timer increments every 1 µs
+
+
+
+---
+
+🔁 Overflow Concept
+
+When timer reaches max:
+
+For 16-bit → FFFFH → 0000H
+
+Overflow flag is set:
+
+TF0 (Timer 0)
+
+TF1 (Timer 1)
+
+
+
+This is crucial for:
+
+Interrupts
+
+Delay loops
+
+
+
+---
+
+🔥 2️⃣ TMOD Register (Timer Mode Register)
+
+Controls:
+
+Mode selection
+
+Timer/Counter selection
+
+Gating
+
+
+📍 Address: 89H
+
+
+---
+
+🧩 TMOD Structure
+
+| GATE | C/T | M1 | M0 | GATE | C/T | M1 | M0 |
+   T1                     T0
+
+
+---
+
+🔹 Bits Explanation
+
+1. M1, M0 (Mode Selection)
+
+M1	M0	Mode	Description
+
+0	0	Mode 0	13-bit timer
+0	1	Mode 1	16-bit timer
+1	0	Mode 2	8-bit auto-reload
+1	1	Mode 3	Split timer mode
+
+
+💡 Most used:
+
+Mode 1 → normal timing
+
+Mode 2 → periodic interrupts
+
+
+
+---
+
+2. C/T (Counter/Timer Select)
+
+Value	Meaning
+
+0	Timer (internal clock)
+1	Counter (external input)
+
+
+
+---
+
+3. GATE
+
+Value	Meaning
+
+0	Controlled by TRx only
+1	Controlled by TRx + external interrupt pin
+
+
+🧠 Translation:
+
+> GATE = extra hardware control using INT pins
+
+
+
+
+---
+
+🧪 Example
+
+MOV TMOD, #01H
+
+👉 Timer 0:
+
+Mode 1 (16-bit)
+
+Timer mode
+
+No gating
+
+
+
+---
+
+🔥 3️⃣ TCON Register (Timer Control Register)
+
+Controls:
+
+Start/Stop
+
+Overflow flags
+
+External interrupts
+
+
+📍 Address: 88H
+✅ Bit-addressable
+
+
+---
+
+🧩 TCON Structure
+
+| TF1 | TR1 | TF0 | TR0 | IE1 | IT1 | IE0 | IT0 |
+
+
+---
+
+🔹 Timer Bits (Important)
+
+🔸 TR0 / TR1 (Timer Run Control)
+
+Bit	Meaning
+
+TR0 = 1	Start Timer 0
+TR0 = 0	Stop Timer 0
+
+
+
+---
+
+🔸 TF0 / TF1 (Overflow Flags)
+
+Bit	Meaning
+
+TF0 = 1	Timer 0 overflow
+TF1 = 1	Timer 1 overflow
+
+
+⚠️ Must be cleared manually (or by interrupt)
+
+
+---
+
+🧪 Example
+
+SETB TR0   ; Start Timer 0
+
+JNB TF0, $ ; Wait until overflow
+CLR TF0
+
+
+---
+
+🔁 Full Timer Flow (Put it together)
+
+Let’s say you want a delay:
+
+Steps:
+
+1. Configure mode
+
+
+
+MOV TMOD, #01H
+
+2. Load initial value
+
+
+
+MOV TH0, #FC
+MOV TL0, #66
+
+3. Start timer
+
+
+
+SETB TR0
+
+4. Wait for overflow
+
+
+
+JNB TF0, $
+
+5. Stop & reset
+
+
+
+CLR TR0
+CLR TF0
+
+
+---
+
+🧠 Real System Thinking (This is what matters)
+
+Timers are used for:
+
+OS scheduling
+
+PWM generation
+
+Serial baud rate
+
+Interrupt-driven systems
+
 
